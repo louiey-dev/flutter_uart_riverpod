@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
@@ -36,7 +34,6 @@ class UartState {
 
 class UartNotifier extends StateNotifier<UartState> {
   SerialPort? _serialPort;
-  String _escapeSequence = '';
   bool _inEscapeSequence = false;
   bool _inEscapeParameter = false;
   String _receivedBuffer = '';
@@ -81,17 +78,14 @@ class UartNotifier extends StateNotifier<UartState> {
 
         for (int byte in data) {
           if (_inEscapeSequence) {
-            _escapeSequence += String.fromCharCode(byte);
             if (!_inEscapeParameter && byte == 91) {
               _inEscapeParameter = true;
             } else if (_inEscapeParameter && byte >= 64 && byte <= 126) {
               _inEscapeSequence = false;
               _inEscapeParameter = false;
-              _escapeSequence = '';
             }
           } else if (byte == 27) {
             _inEscapeSequence = true;
-            _escapeSequence = '\x1B';
           } else {
             if (byte >= 32 && byte <= 126 ||
                 byte == 9 ||
@@ -247,7 +241,7 @@ class _UartScreenState extends ConsumerState<UartScreen> {
                       if (uartState.isConnected) {
                         _isUserTyping = true;
                         final currentText = _terminalController.text;
-                        _terminalController.text = currentText + '\n';
+                        _terminalController.text = '$currentText\n';
                         _terminalController
                             .selection = TextSelection.fromPosition(
                           TextPosition(offset: _terminalController.text.length),

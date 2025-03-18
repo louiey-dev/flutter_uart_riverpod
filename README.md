@@ -19,7 +19,14 @@ So, I made this code as a starting point for my future work with Grok and it's q
 - Fixed size at terminal window
 - Add log window for user
 - Fix overflow issue at widget, Port dropdown menu for now
-  
+- File log save feature add
+- Special function key add
+  - Ctrl + C - break
+  - Copy and paste
+
+![main 화면](main.png)
+
+
 ## History (Latest first)
 
 - 2025.03.18 First commit
