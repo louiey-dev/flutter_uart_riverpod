@@ -35,8 +35,6 @@ class UartState {
 class UartNotifier extends StateNotifier<UartState> {
   SerialPort? _serialPort;
   bool _inEscapeSequence = false;
-  bool _inEscapeParameter = false;
-  String _receivedBuffer = '';
   String _escapeSequence = '';
 
   UartNotifier() : super(UartState());
@@ -155,6 +153,7 @@ class _UartScreenState extends ConsumerState<UartScreen> {
   final FocusNode _terminalFocusNode = FocusNode();
   bool _isUserTyping = false;
   String _lastReceivedData = '';
+  String openCloseStr = "Open";
 
   @override
   void dispose() {
@@ -189,21 +188,42 @@ class _UartScreenState extends ConsumerState<UartScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DropdownButton<String>(
-              hint: Text('Select Port'),
-              value: uartState.portName,
-              items:
-                  SerialPort.availablePorts
-                      .map(
-                        (port) =>
-                            DropdownMenuItem(value: port, child: Text(port)),
-                      )
-                      .toList(),
-              onChanged: (value) {
-                if (value != null) {
-                  ref.read(uartProvider.notifier).connectToPort(value);
-                }
-              },
+            Row(
+              children: [
+                DropdownButton<String>(
+                  hint: Text('Select Port'),
+                  value: uartState.portName,
+                  items:
+                      SerialPort.availablePorts
+                          .map(
+                            (port) => DropdownMenuItem(
+                              value: port,
+                              child: Text(port),
+                            ),
+                          )
+                          .toList(),
+                  onChanged: (value) {
+                    if (value != null) {
+                      ref.read(uartProvider.notifier).connectToPort(value);
+                    }
+                  },
+                ),
+                SizedBox(width: 8),
+                ElevatedButton(
+                  child: Text("COM"),
+                  onPressed: () async {
+                    await ref.read(uartProvider.notifier).connectToPort('COM1');
+                  },
+                ),
+                SizedBox(width: 8),
+                ElevatedButton(
+                  child: Text(uartState.isConnected ? 'Close' : 'Open'),
+                  onPressed: () {
+                    developer.log("Open pressed");
+                    // openCloseStr = "Close";
+                  },
+                ),
+              ],
             ),
             SizedBox(height: 16),
             Text(

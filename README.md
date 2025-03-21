@@ -23,6 +23,8 @@ So, I made this code as a starting point for my future work with Grok and it's q
 - Special function key add
   - Ctrl + C - break
   - Copy and paste
+- Remove appBar title
+- 
 
 ![main 화면](main.png)
 
