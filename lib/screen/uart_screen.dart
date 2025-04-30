@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_uart_riverpod/feature/uart/uart_notifier.dart';
 import 'dart:developer' as developer;
 
+import '../feature/log/my_utils.dart';
+
 class UartScreen extends ConsumerStatefulWidget {
   const UartScreen({super.key});
 
@@ -51,7 +53,7 @@ class _UartScreenState extends ConsumerState<UartScreen> {
       // title: Text('UART Terminal with Riverpod'),
       // ), // louiey, 2025.03.25. Disabled to display title
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -71,29 +73,58 @@ class _UartScreenState extends ConsumerState<UartScreen> {
                           .toList(),
                   onChanged: (value) {
                     if (value != null) {
-                      ref.read(uartProvider.notifier).connectToPort(value);
+                      ref.read(uartProvider.notifier).setSelectedPort(value);
+                      utils.log(
+                        "Selected port : $value, ${uartState.portName}",
+                      );
                     }
                   },
                 ),
                 SizedBox(width: 8),
-                Expanded(
-                  child: ElevatedButton(
-                    child: Text("COM"),
-                    onPressed: () async {
-                      await ref
-                          .read(uartProvider.notifier)
-                          .connectToPort('COM1');
-                    },
-                  ),
+                ElevatedButton(
+                  child: Text("COM"),
+                  onPressed: () {
+                    // await ref.read(uartProvider.notifier).connectToPort('COM1');
+                    utils.log("check com ports");
+
+                    SerialPort.availablePorts
+                        .map(
+                          (port) =>
+                              DropdownMenuItem(value: port, child: Text(port)),
+                        )
+                        .toList();
+                  },
                 ),
                 SizedBox(width: 8),
-                Expanded(
-                  child: ElevatedButton(
-                    child: Text(uartState.isConnected ? 'Close' : 'Open'),
-                    onPressed: () {
-                      developer.log("Open pressed");
-                      // openCloseStr = "Close";
-                    },
+                SizedBox(
+                  width: 90,
+                  height: 30,
+                  child: Expanded(
+                    child: ElevatedButton(
+                      child: Text(uartState.isConnected ? 'Close' : 'Open'),
+                      onPressed: () {
+                        developer.log("Open pressed, ${uartState.isConnected}");
+                        try {
+                          if (uartState.isConnected) {
+                            ref.read(uartProvider.notifier).disconnect();
+                            openCloseStr = "Open";
+                            utils.log("port closed, ${uartState.portName}");
+                          } else {
+                            if (uartState.portName == null) {
+                              utils.log("port is null");
+                            } else {
+                              ref
+                                  .read(uartProvider.notifier)
+                                  .connectToPort(uartState.portName ?? '');
+                              openCloseStr = "Close";
+                              utils.log("port opened, ${uartState.portName}");
+                            }
+                          }
+                        } catch (e) {
+                          utils.log(e.toString());
+                        }
+                      },
+                    ),
                   ),
                 ),
               ],
