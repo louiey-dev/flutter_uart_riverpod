@@ -23,8 +23,6 @@ So, I made this code as a starting point for my future work with Grok and it's q
 - Special function key add
   - Ctrl + C - break
   - Copy and paste
-- ~~Remove appBar title~~
-- ~~Remove debugger banner~~
 
 ![main 화면](main.png)
 
@@ -34,3 +32,6 @@ So, I made this code as a starting point for my future work with Grok and it's q
 - 2025.03.18 First commit
   - Flutter 3.28.0-1.0.pre.70
   - Dart 3.7.0 (build 3.7.0-232.0.dev) • DevTools 2.41.0
+- 2025.05.29
+  - Removed appBar title and debugger banner
+- 

@@ -96,36 +96,30 @@ class _UartScreenState extends ConsumerState<UartScreen> {
                   },
                 ),
                 SizedBox(width: 8),
-                SizedBox(
-                  width: 90,
-                  height: 30,
-                  child: Expanded(
-                    child: ElevatedButton(
-                      child: Text(uartState.isConnected ? 'Close' : 'Open'),
-                      onPressed: () {
-                        developer.log("Open pressed, ${uartState.isConnected}");
-                        try {
-                          if (uartState.isConnected) {
-                            ref.read(uartProvider.notifier).disconnect();
-                            openCloseStr = "Open";
-                            utils.log("port closed, ${uartState.portName}");
-                          } else {
-                            if (uartState.portName == null) {
-                              utils.log("port is null");
-                            } else {
-                              ref
-                                  .read(uartProvider.notifier)
-                                  .connectToPort(uartState.portName ?? '');
-                              openCloseStr = "Close";
-                              utils.log("port opened, ${uartState.portName}");
-                            }
-                          }
-                        } catch (e) {
-                          utils.log(e.toString());
+                ElevatedButton(
+                  child: Text(uartState.isConnected ? 'Close' : 'Open'),
+                  onPressed: () {
+                    developer.log("Open pressed, ${uartState.isConnected}");
+                    try {
+                      if (uartState.isConnected) {
+                        ref.read(uartProvider.notifier).disconnect();
+                        openCloseStr = "Open";
+                        utils.log("port closed, ${uartState.portName}");
+                      } else {
+                        if (uartState.portName == null) {
+                          utils.log("port is null");
+                        } else {
+                          ref
+                              .read(uartProvider.notifier)
+                              .connectToPort(uartState.portName ?? '');
+                          openCloseStr = "Close";
+                          utils.log("port opened, ${uartState.portName}");
                         }
-                      },
-                    ),
-                  ),
+                      }
+                    } catch (e) {
+                      utils.log(e.toString());
+                    }
+                  },
                 ),
               ],
             ),
@@ -190,6 +184,7 @@ class _UartScreenState extends ConsumerState<UartScreen> {
                 child: SingleChildScrollView(
                   controller: _scrollController,
                   child: TextField(
+                    autofocus: true,
                     controller: _terminalController,
                     maxLines: null,
                     decoration: InputDecoration(
