@@ -81,20 +81,21 @@ class _UartScreenState extends ConsumerState<UartScreen> {
                   },
                 ),
                 SizedBox(width: 8),
-                ElevatedButton(
-                  child: Text("COM"),
-                  onPressed: () {
-                    // await ref.read(uartProvider.notifier).connectToPort('COM1');
-                    utils.log("check com ports");
+                // louiey, 2025-05-29. Removed COM button as it is not needed
+                // ElevatedButton(
+                //   child: Text("COM"),
+                //   onPressed: () {
+                //     // await ref.read(uartProvider.notifier).connectToPort('COM1');
+                //     utils.log("check com ports");
 
-                    SerialPort.availablePorts
-                        .map(
-                          (port) =>
-                              DropdownMenuItem(value: port, child: Text(port)),
-                        )
-                        .toList();
-                  },
-                ),
+                //     SerialPort.availablePorts
+                //         .map(
+                //           (port) =>
+                //               DropdownMenuItem(value: port, child: Text(port)),
+                //         )
+                //         .toList();
+                //   },
+                // ),
                 SizedBox(width: 8),
                 ElevatedButton(
                   child: Text(uartState.isConnected ? 'Close' : 'Open'),
@@ -123,16 +124,17 @@ class _UartScreenState extends ConsumerState<UartScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 16),
-            Text(
-              uartState.isConnected
-                  ? 'Connected to ${uartState.portName}'
-                  : 'Disconnected',
-              style: TextStyle(
-                color: uartState.isConnected ? Colors.green : Colors.red,
-              ),
-            ),
-            SizedBox(height: 16),
+            // SizedBox(height: 16),
+            // louiey, 2025.03.29. Disabled to display connection status
+            // Text(
+            //   uartState.isConnected
+            //       ? 'Connected to ${uartState.portName}'
+            //       : 'Disconnected',
+            //   style: TextStyle(
+            //     color: uartState.isConnected ? Colors.green : Colors.red,
+            //   ),
+            // ),
+            SizedBox(height: 10),
             Expanded(
               child: Focus(
                 focusNode: _terminalFocusNode,
@@ -214,11 +216,12 @@ class _UartScreenState extends ConsumerState<UartScreen> {
                 style: TextStyle(color: Colors.red),
               ),
             SizedBox(height: 16),
-            if (uartState.isConnected)
-              ElevatedButton(
-                onPressed: () => ref.read(uartProvider.notifier).disconnect(),
-                child: Text('Disconnect'),
-              ),
+            // louiey, 2025-05-29. Removed bottom of disconnect button in case of com port open done
+            // if (uartState.isConnected)
+            //   ElevatedButton(
+            //     onPressed: () => ref.read(uartProvider.notifier).disconnect(),
+            //     child: Text('Disconnect'),
+            //   ),
           ],
         ),
       ),

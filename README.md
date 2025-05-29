@@ -22,6 +22,8 @@ So, I made this code as a starting point for my future work with Grok and it's q
 - Special function key add
   - Ctrl + C - break
   - Copy and paste
+- Doubles keystrokes
+  - if press one button quickly, terminal recognizes double key strokes even pressed one key
 
 ![main 화면](main.png)
 
@@ -35,3 +37,6 @@ So, I made this code as a starting point for my future work with Grok and it's q
   - Removed appBar title and debugger banner
   - Fix overflow issue at widget, Port dropdown menu for now
     - Incorrect use of ParentDataWidget
+  - Remove text below of COM field
+  - Remove Disconnect button bottom of UI
+  - Remove COM button (don't need now, I can use COM field)
