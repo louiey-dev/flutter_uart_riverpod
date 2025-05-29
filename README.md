@@ -18,7 +18,6 @@ So, I made this code as a starting point for my future work with Grok and it's q
 - Add COM/Open/Close buttons to the UI.
 - Fixed size at terminal window
 - Add log window for user
-- Fix overflow issue at widget, Port dropdown menu for now
 - File log save feature add
 - Special function key add
   - Ctrl + C - break
@@ -34,4 +33,5 @@ So, I made this code as a starting point for my future work with Grok and it's q
   - Dart 3.7.0 (build 3.7.0-232.0.dev) • DevTools 2.41.0
 - 2025.05.29
   - Removed appBar title and debugger banner
-- 
+  - Fix overflow issue at widget, Port dropdown menu for now
+    - Incorrect use of ParentDataWidget
